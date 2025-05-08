@@ -43,7 +43,7 @@
           </TemplateColumn>
           <TemplateColumn Context="row" Title="Add Weight">
             <CellTemplate>
-              <MudButton Size="@Size.Medium" Variant="@Variant.Filled" Color="@Color.Primary" OnClick="(() => IncrementWeight(row.Item, 10))">+10 Wt</MudButton>
+              <MudButton Size="@Size.Medium" Variant="@Variant.Filled" Color="@Color.Primary" OnClick="(() => IncrementWeight(row.Item, 5))">+5 @row.Item.Measurement</MudButton>
             </CellTemplate>
           </TemplateColumn>
           <TemplateColumn Context="row" Title="Reset To Prev">
