@@ -1,10 +1,10 @@
 {
   "mainAssemblyName": "Fitness",
   "resources": {
-    "hash": "sha256-R9C5w/uX6sLTMiJeRq6VBkRBFMNTCwdG2L84yWxw0S0=",
+    "hash": "sha256-Hl6sdsJ1XeXQBJcyJIkYb2e9pQrySyOikhC5mJA60oM=",
     "fingerprinting": {
       "Blazored.LocalStorage.12n6dz54qr.wasm": "Blazored.LocalStorage.wasm",
-      "Fitness.5a9lvxg0ll.wasm": "Fitness.wasm",
+      "Fitness.1xw71wq3sd.wasm": "Fitness.wasm",
       "Microsoft.AspNetCore.Components.Forms.lmcfcyebxn.wasm": "Microsoft.AspNetCore.Components.Forms.wasm",
       "Microsoft.AspNetCore.Components.5fcbnpsbmx.wasm": "Microsoft.AspNetCore.Components.wasm",
       "Microsoft.AspNetCore.Components.Web.v0btucsmb8.wasm": "Microsoft.AspNetCore.Components.Web.wasm",
@@ -78,7 +78,7 @@
     },
     "assembly": {
       "Blazored.LocalStorage.12n6dz54qr.wasm": "sha256-OaMAAd5n7ORfyur5e3QIyEVKJ76MKIvwbg7/icnnYcU=",
-      "Fitness.5a9lvxg0ll.wasm": "sha256-wzqNweGafaiWbDjn5OzVcl4FFB93t3m6/c3wzItsQ08=",
+      "Fitness.1xw71wq3sd.wasm": "sha256-m9y5P7zmXnmOTYpXgI+xWmgcmlhPreNGcG1/dcITL0M=",
       "Microsoft.AspNetCore.Components.Forms.lmcfcyebxn.wasm": "sha256-Ux573peKEQ218Cy5jfERh3g4RoecVRs/uW6c5DeBAu4=",
       "Microsoft.AspNetCore.Components.5fcbnpsbmx.wasm": "sha256-oQ7chAeJNPBKtgyS6JqUYY/ZdvWMxzB+QNKWqAxrS7g=",
       "Microsoft.AspNetCore.Components.Web.v0btucsmb8.wasm": "sha256-D6uvsO1rItJPnvLOXRVb9oUhZJ5YfJH+qvcB515SNGY=",
