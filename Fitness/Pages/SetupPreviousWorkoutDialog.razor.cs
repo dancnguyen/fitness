@@ -9,6 +9,9 @@ namespace Fitness.Pages
     [CascadingParameter]
     private IMudDialogInstance MudDialog { get; set; }
 
+    [Inject]
+    private ISnackbar Snackbar { get; set; }
+
     [Parameter]
     public string SessionType { get; set; }
 
@@ -34,20 +37,31 @@ namespace Fitness.Pages
       if (!Form.IsValid)
         return;
       ErrorMessage = string.Empty;
+      if (ExerciseList.Where(x => x.Name.Equals(Exercise.Name, StringComparison.OrdinalIgnoreCase)).FirstOrDefault() != null)
+      {
+        string error = $"Exercise {Exercise.Name} has already been added to the session!";
+        ErrorMessage = error;
+        Snackbar.Add(error, Severity.Error);
+        return;
+      }
       ExerciseList.Add(Exercise);
       Exercise = new();
+      Snackbar.Add("Successfully added exercise!", Severity.Success);
     }
 
     private void DeleteExercise(Exercise exercise)
     {
       ExerciseList.Remove(exercise);
+      Snackbar.Add("Successfully removed exercise!", Severity.Success);
     }
 
     private void Submit() 
     {
       if (ExerciseList.Count == 0)
       {
-        ErrorMessage = "Please add at least one exercise!";
+        string error = "Please add at least one exercise!";
+        ErrorMessage = error;
+        Snackbar.Add(error, Severity.Error);
         return;
       }
       PreviousWorkout.Exercises = ExerciseList;

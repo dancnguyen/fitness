@@ -62,6 +62,7 @@ namespace Fitness.Pages
       Storage.CurrentWorkout.SessionType = sessionType;
       Storage.PreviousWorkout = previousWorkout;
       LoadCurrentWorkoutFromPrevious(sessionType);
+      Snackbar.Add($"Successfully loaded {sessionType} workout!", Severity.Success);
     }
 
     private async Task DeleteSessionTypeData()
@@ -79,6 +80,7 @@ namespace Fitness.Pages
       Storage.CurrentWorkout = new();
       Storage.PreviousWorkout = new();
       await LocalStorage.SetItemAsync("storage", Storage);
+      Snackbar.Add($"Successfully deleted {Storage.CurrentWorkout.SessionType} workout configuration and history!", Severity.Success);
     }
 
     private async Task ResetToPreviousWorkout(Exercise exercise)
@@ -103,6 +105,7 @@ namespace Fitness.Pages
       int indexExercise = Storage.CurrentWorkout.Exercises.IndexOf(currentExercise);
       Storage.CurrentWorkout.Exercises.Remove(currentExercise);
       Storage.CurrentWorkout.Exercises.Insert(indexExercise, resetExercise);
+      Snackbar.Add($"Successfully reset {exercise.Name} to previous workout settings!", Severity.Success);
     }
 
     private void LoadCurrentWorkoutFromPrevious(string sessionType)
@@ -137,6 +140,7 @@ namespace Fitness.Pages
         return;
       }
       exercise.CompletedSets++;
+      Snackbar.Add($"Successfully incremented completed sets for {exercise.Name}! Good Job!", Severity.Success);
     }
 
     private async Task IncrementRep(Exercise exercise) 
@@ -146,6 +150,7 @@ namespace Fitness.Pages
 
       exercise.MinReps++;
       exercise.MaxReps++;
+      Snackbar.Add($"Successfully incremented reps for {exercise.Name}! Good Job!", Severity.Success);
     }
 
     private async Task IncrementWeight(Exercise exercise, int increment)
@@ -154,6 +159,7 @@ namespace Fitness.Pages
         return;
 
       exercise.Weight += increment;
+      Snackbar.Add($"Successfully incremented weight for {exercise.Name}! Good Job!", Severity.Success);
     }
 
     private async Task<bool> PromptConfirmation(string confirmationText)
