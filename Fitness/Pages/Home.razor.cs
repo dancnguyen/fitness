@@ -16,6 +16,9 @@ namespace Fitness.Pages
     [Inject]
     private IDialogService DialogService { get; set; }
 
+    [Inject]
+    private ISnackbar Snackbar { get; set; }
+
     private string Notification { get; set; } = string.Empty;
 
     private Storage Storage { get; set; } = new Storage();
@@ -34,6 +37,7 @@ namespace Fitness.Pages
       Storage.WorkoutHistory.Add(Storage.CurrentWorkout);
       await LocalStorage.SetItemAsync("storage", Storage);
       Notification = $"Progress Saved! {DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss")}";
+      Snackbar.Add(Notification, Severity.Success);
     }
 
     private async Task LoadWorkout()
