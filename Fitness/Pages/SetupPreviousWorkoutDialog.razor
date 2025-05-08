@@ -1,0 +1,68 @@
+﻿@using Fitness.Models
+<MudDialog>
+  <TitleContent>Setup Previous @SessionType Workout</TitleContent>
+  <DialogContent>
+    <MudForm @ref="Form">
+      <MudGrid Spacing="12">
+        <MudItem xs="12">
+          <MudTextField T="string" Label="Exercise Name" @bind-Value="Exercise.Name" For="(() => Exercise.Name)" />
+        </MudItem>
+        <MudItem xs="12">
+          <MudTextField T="int?" Mask="@(new PatternMask("000"))" Label="Weight" @bind-Value="Exercise.Weight" For="(() => Exercise.Weight)" />
+        </MudItem>
+        <MudItem xs="12">
+          <MudSelect Label="Units of Measurement" @bind-Value="Exercise.Measurement" For="(() => Exercise.Measurement)">
+            @foreach (Exercise.WeightType item in Enum.GetValues(typeof(Exercise.WeightType)))
+            {
+              <MudSelectItem Value="@item">@item</MudSelectItem>
+            }
+          </MudSelect>
+        </MudItem>
+        <MudItem xs="12">
+          <MudTextField T="int?" Mask="@(new PatternMask("00"))" Label="Min Reps" @bind-Value="Exercise.MinReps" For="(() => Exercise.MinReps)" />
+        </MudItem>
+        <MudItem xs="12">
+          <MudTextField T="int?" Mask="@(new PatternMask("00"))" Label="Max Reps" @bind-Value="Exercise.MaxReps" For="(() => Exercise.MaxReps)" />
+        </MudItem>
+        <MudItem xs="12">
+          <MudTextField T="int" Mask="@(new PatternMask("0"))" Label="Sets" @bind-Value="Exercise.Sets" For="(() => Exercise.Sets)" />
+        </MudItem>
+        <MudItem xs="12">
+          <MudContainer Class="d-flex justify-center">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="AddExercise">Add Exercise</MudButton>
+          </MudContainer>
+        </MudItem>
+        @if (!string.IsNullOrWhiteSpace(ErrorMessage))
+        {
+          <MudItem xs="12">
+            <MudText Align="Align.Center" Color="Color.Error">@ErrorMessage</MudText>
+          </MudItem>
+        }
+        <MudItem xs="12">
+          <MudDataGrid Items="@ExerciseList" SortMode="@SortMode.None">
+            <ToolBarContent>
+              <MudText Typo="Typo.h6">Previous Workout</MudText>
+            </ToolBarContent>
+            <Columns>
+              <PropertyColumn Property="x => x.Name" Title="Exercise" />
+              <PropertyColumn Property="x => x.FormatWeight()" Title="Weight" />
+              <PropertyColumn Property="x => x.FormatReps()" Title="Reps" />
+              <PropertyColumn Property="x => x.Sets" Title="Sets" />
+              <TemplateColumn Context="row" Title="Actions">
+                <CellTemplate>
+                  <MudStack Row>
+                    <MudButton Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Primary" OnClick="(() => DeleteExercise(row.Item))">Delete</MudButton>
+                  </MudStack>
+                </CellTemplate>
+              </TemplateColumn>
+            </Columns>
+          </MudDataGrid>
+        </MudItem>
+      </MudGrid>
+    </MudForm>
+  </DialogContent>
+  <DialogActions>
+    <MudButton OnClick="Cancel">Cancel</MudButton>
+    <MudButton Color="Color.Primary" OnClick="Submit">Submit</MudButton>
+  </DialogActions>
+</MudDialog>

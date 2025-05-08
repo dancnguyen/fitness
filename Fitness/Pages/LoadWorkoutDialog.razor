@@ -1,0 +1,16 @@
+﻿<MudDialog>
+  <TitleContent>Load Workout</TitleContent>
+  <DialogContent>
+    <MudGrid Spacing="12">
+      @foreach (SessionTypes value in Enum.GetValues(typeof(SessionTypes)))
+      {
+        <MudItem xs="12" Class="d-flex justify-center">
+          <MudButton Variant="Variant.Filled" Size="Size.Large" Color="Color.Primary" OnClick="(() => OnSessionClick(value.ToString()))">@value.ToString()</MudButton>
+        </MudItem>
+      }
+    </MudGrid>
+  </DialogContent>
+  <DialogActions>
+    <MudButton OnClick="Cancel">Cancel</MudButton>
+  </DialogActions>
+</MudDialog>

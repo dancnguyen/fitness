@@ -1,0 +1,85 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<MudContainer Class="mt-3" MaxWidth="MaxWidth.Large">
+  <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="false">Workout</MudText>
+  <MudContainer Class="d-flex justify-center">
+    <MudButton Variant="Variant.Filled" DropShadow="false" Color="Color.Primary" Size="Size.Large" Class="mt-3 mb-8" OnClick="LoadWorkout">Load Workout</MudButton>
+  </MudContainer>
+  <MudStack Row>
+    <MudText Typo="Typo.h5" GutterBottom="true">Session Type: @Storage.CurrentWorkout.SessionType</MudText>
+    @if (!string.IsNullOrWhiteSpace(Storage.CurrentWorkout.SessionType))
+    {
+      <MudSpacer />
+      <MudButton Variant="Variant.Filled" DropShadow="false" Color="Color.Primary" Size="Size.Large" OnClick="DeleteSessionTypeData">Delete</MudButton>
+    }
+  </MudStack>
+  <MudGrid Spacing="12">
+    <MudItem xs="12">
+      <MudDataGrid Items="@Storage.CurrentWorkout.Exercises" SortMode="@SortMode.None" Class="exercise-datagrid">
+        <ToolBarContent>
+          <MudText Typo="Typo.h6">Current Workout</MudText>
+        </ToolBarContent>
+        <Columns>
+          <PropertyColumn Property="x => x.Name" Title="Exercise" />
+          <PropertyColumn Property="x => x.FormatWeight()" Title="Weight" CellStyleFunc="@ChangedWeightCellStyleFunc" />
+          <PropertyColumn Property="x => x.FormatReps()" Title="Reps" CellStyleFunc="@ChangedRepsCellStyleFunc" />
+          <PropertyColumn Property="x => x.Sets" Title="Sets" />
+          <TemplateColumn Context="row" Title="Completed Sets">
+            <CellTemplate>
+              <MudRating ReadOnly="true" Size="@Size.Large" Color="Color.Primary" FullIcon="@Icons.Material.Filled.FitnessCenter" EmptyIcon="@Icons.Material.Outlined.CheckBoxOutlineBlank" MaxValue="@row.Item.Sets" SelectedValue="@row.Item.CompletedSets" />
+            </CellTemplate>
+          </TemplateColumn>
+          <TemplateColumn Context="row" Title="Mark Set">
+            <CellTemplate>
+              <MudButton Size="@Size.Medium" Variant="@Variant.Filled" Color="@Color.Primary" OnClick="(() => IncrementCompletedSet(row.Item))">Mark</MudButton>
+            </CellTemplate>
+          </TemplateColumn>
+          <TemplateColumn Context="row" Title="Add Rep">
+            <CellTemplate>
+              <MudButton Size="@Size.Medium" Variant="@Variant.Filled" Color="@Color.Primary" OnClick="(() => IncrementRep(row.Item))">+1 Rep</MudButton>
+            </CellTemplate>
+          </TemplateColumn>
+          <TemplateColumn Context="row" Title="Add Weight">
+            <CellTemplate>
+              <MudButton Size="@Size.Medium" Variant="@Variant.Filled" Color="@Color.Primary" OnClick="(() => IncrementWeight(row.Item, 10))">+10 Wt</MudButton>
+            </CellTemplate>
+          </TemplateColumn>
+          <TemplateColumn Context="row" Title="Reset To Prev">
+            <CellTemplate>
+              <MudButton Size="@Size.Medium" Variant="@Variant.Filled" Color="@Color.Primary" OnClick="(() => ResetToPreviousWorkout(row.Item))">Reset</MudButton>
+            </CellTemplate>
+          </TemplateColumn>
+        </Columns>
+      </MudDataGrid>
+    </MudItem>
+    @if (!string.IsNullOrWhiteSpace(Storage.CurrentWorkout.SessionType))
+    {
+      <MudItem xs="12">
+        <MudContainer Class="d-flex justify-center">
+          <MudButton Variant="Variant.Filled" DropShadow="false" Color="Color.Primary" Size="Size.Large" OnClick="ShowCurrentWorkoutAsText">Show Current Workout as Text</MudButton>
+        </MudContainer>
+      </MudItem>
+    }
+    <MudItem Class="mt-5" xs="12">
+      <MudDataGrid Items="@Storage.PreviousWorkout.Exercises" SortMode="@SortMode.None" Class="exercise-datagrid">
+        <ToolBarContent>
+          <MudText Typo="Typo.h6">Previous Workout</MudText>
+        </ToolBarContent>
+        <Columns>
+          <PropertyColumn Property="x => x.Name" Title="Exercise" />
+          <PropertyColumn Property="x => x.FormatWeight()" Title="Weight" />
+          <PropertyColumn Property="x => x.FormatReps()" Title="Reps" />
+          <PropertyColumn Property="x => x.Sets" Title="Sets" />
+        </Columns>
+      </MudDataGrid>
+    </MudItem>
+    <MudItem xs="12" Class="d-flex justify-center">
+      <MudButton Variant="Variant.Filled" DropShadow="false" Color="Color.Primary" Size="Size.Large" Class="mt-8" OnClick="SaveProgress">Save Progress</MudButton>
+    </MudItem>
+    <MudItem xs="12">
+      <MudText Align="Align.Center" Color="Color.Success">@Notification</MudText>
+    </MudItem>
+  </MudGrid>
+</MudContainer>
