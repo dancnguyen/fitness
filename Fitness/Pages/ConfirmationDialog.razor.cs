@@ -6,7 +6,7 @@ namespace Fitness.Pages
   public partial class ConfirmationDialog
   {
     [CascadingParameter]
-    private IMudDialogInstance MudDialog { get; set; }
+    private IMudDialogInstance MudDialog { get; set; } = default!;
 
     [Parameter]
     public string ConfirmationText { get; set; } = string.Empty;

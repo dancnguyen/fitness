@@ -11,13 +11,13 @@ namespace Fitness.Pages
   public partial class Home
   {
     [Inject]
-    private Blazored.LocalStorage.ILocalStorageService LocalStorage { get; set; }
+    private Blazored.LocalStorage.ILocalStorageService LocalStorage { get; set; } = default!;
 
     [Inject]
-    private IDialogService DialogService { get; set; }
+    private IDialogService DialogService { get; set; } = default!;
 
     [Inject]
-    private ISnackbar Snackbar { get; set; }
+    private ISnackbar Snackbar { get; set; } = default!;
 
     private string Notification { get; set; } = string.Empty;
 
@@ -52,8 +52,8 @@ namespace Fitness.Pages
       Workout? previousWorkout = Storage.WorkoutHistory.Where(x => x.SessionType.Equals(sessionType)).FirstOrDefault();
       if (previousWorkout == null)
       {
-        DialogParameters<SetupPreviousWorkoutDialog> parameters = new DialogParameters<SetupPreviousWorkoutDialog> { { x => x.SessionType, sessionType } };
-        IDialogReference setupPreviousWorkoutDialog = await DialogService.ShowAsync<SetupPreviousWorkoutDialog>("Setup Previous Workout", parameters, options);
+        DialogParameters<SetupWorkoutDialog> parameters = new DialogParameters<SetupWorkoutDialog> { { x => x.SessionType, sessionType } };
+        IDialogReference setupPreviousWorkoutDialog = await DialogService.ShowAsync<SetupWorkoutDialog>("Setup Previous Workout", parameters, options);
         DialogResult? setupPreviousWorkoutResult = await setupPreviousWorkoutDialog.Result;
         if (setupPreviousWorkoutResult == null || setupPreviousWorkoutResult.Canceled)
           return;
@@ -143,23 +143,48 @@ namespace Fitness.Pages
       Snackbar.Add($"Successfully incremented completed sets for {exercise.Name}! Good Job!", Severity.Success);
     }
 
-    private async Task IncrementRep(Exercise exercise) 
+    private async Task EditExercise(Exercise exercise) 
     {
-      if (!await PromptConfirmation("Would you like to increment a rep?"))
-        return;
-
-      exercise.MinReps++;
-      exercise.MaxReps++;
-      Snackbar.Add($"Successfully incremented reps for {exercise.Name}! Good Job!", Severity.Success);
+      await DisplayExercise(exercise);
     }
 
-    private async Task IncrementWeight(Exercise exercise, int increment)
+    private async Task AddExercise()
     {
-      if (!await PromptConfirmation("Would you like to increment the weight?"))
-        return;
+      await DisplayExercise(new());
+    }
 
-      exercise.Weight += increment;
-      Snackbar.Add($"Successfully incremented weight for {exercise.Name}! Good Job!", Severity.Success);
+    private async Task DisplayExercise(Exercise exercise)
+    {
+      DialogParameters<DisplayExerciseDialog> parameters = new DialogParameters<DisplayExerciseDialog> { { x => x.InputExercise, exercise }, { x => x.ExerciseNames, Storage.CurrentWorkout.Exercises.Select(e => e.Name).ToList() } };
+      DialogOptions options = new DialogOptions { MaxWidth = MaxWidth.ExtraSmall };
+      IDialogReference displayExerciseDialog = await DialogService.ShowAsync<DisplayExerciseDialog>("Exercise", parameters, options);
+      DialogResult? displayExerciseResult = await displayExerciseDialog.Result;
+      if (displayExerciseResult == null || displayExerciseResult.Canceled)
+        return;
+      Exercise resultExercise = displayExerciseResult.Data as Exercise ?? new();
+      if (string.IsNullOrWhiteSpace(resultExercise.Name)) // This means that the exercise has been deleted
+      {
+        Storage.CurrentWorkout.Exercises.Remove(exercise);
+        Snackbar.Add($"Successfully removed {exercise.Name} from current workout!", Severity.Success);
+      }
+      else
+      {
+        if (string.IsNullOrWhiteSpace(exercise.Name)) // This means that the exercise is being added
+        {
+          Storage.CurrentWorkout.Exercises.Add(resultExercise);
+          Snackbar.Add($"Successfully added {resultExercise.Name} to current workout!", Severity.Success);
+        }
+        else // This means that the exercise is being modified
+        {
+          Exercise? currentExercise = Storage.CurrentWorkout.Exercises.Where(x => x.Name.Equals(exercise.Name, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+          if (currentExercise == null)
+            return;
+          int indexExercise = Storage.CurrentWorkout.Exercises.IndexOf(currentExercise);
+          Storage.CurrentWorkout.Exercises.Remove(currentExercise);
+          Storage.CurrentWorkout.Exercises.Insert(indexExercise, resultExercise);
+          Snackbar.Add($"Successfully modified {exercise.Name}!", Severity.Success);
+        }
+      }
     }
 
     private async Task<bool> PromptConfirmation(string confirmationText)

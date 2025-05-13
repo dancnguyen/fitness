@@ -4,18 +4,18 @@ using MudBlazor;
 
 namespace Fitness.Pages
 {
-  public partial class SetupPreviousWorkoutDialog
+  public partial class SetupWorkoutDialog
   {
     [CascadingParameter]
-    private IMudDialogInstance MudDialog { get; set; }
+    private IMudDialogInstance MudDialog { get; set; } = default!;
 
     [Inject]
-    private ISnackbar Snackbar { get; set; }
+    private ISnackbar Snackbar { get; set; } = default!;
 
     [Parameter]
-    public string SessionType { get; set; }
+    public string SessionType { get; set; } = default!;
 
-    private MudForm Form { get; set; }
+    private MudForm Form { get; set; } = default!;
 
     private string ErrorMessage { get; set; } = string.Empty;
 

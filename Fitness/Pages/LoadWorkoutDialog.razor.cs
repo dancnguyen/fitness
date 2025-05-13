@@ -6,7 +6,7 @@ namespace Fitness.Pages
   public partial class LoadWorkoutDialog
   {
     [CascadingParameter]
-    private IMudDialogInstance MudDialog { get; set; }
+    private IMudDialogInstance MudDialog { get; set; } = default!;
 
     private enum SessionTypes { PUSH, PULL, LEGS };
 
