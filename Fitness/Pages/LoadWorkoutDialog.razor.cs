@@ -8,7 +8,7 @@ namespace Fitness.Pages
     [CascadingParameter]
     private IMudDialogInstance MudDialog { get; set; } = default!;
 
-    private enum SessionTypes { PUSH, PULL, LEGS };
+    private enum SessionTypes { PUSH, PULL, SHOULDERS, LEGS };
 
     private void OnSessionClick(string sessionType) => MudDialog.Close(DialogResult.Ok(sessionType));
 
