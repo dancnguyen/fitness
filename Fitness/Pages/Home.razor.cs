@@ -20,6 +20,7 @@ namespace Fitness.Pages
     private ISnackbar Snackbar { get; set; } = default!;
 
     private string Notification { get; set; } = string.Empty;
+    private bool IsExpandSessionOptions { get; set; } = false;
 
     private Storage Storage { get; set; } = new Storage();
 
@@ -62,6 +63,7 @@ namespace Fitness.Pages
       Storage.CurrentWorkout.SessionType = sessionType;
       Storage.PreviousWorkout = previousWorkout;
       LoadCurrentWorkoutFromPrevious(sessionType);
+      IsExpandSessionOptions = false;
       Snackbar.Add($"Successfully loaded {sessionType} workout!", Severity.Success);
     }
 
@@ -80,6 +82,7 @@ namespace Fitness.Pages
       Storage.CurrentWorkout = new();
       Storage.PreviousWorkout = new();
       await LocalStorage.SetItemAsync("storage", Storage);
+      IsExpandSessionOptions = false;
       Snackbar.Add($"Successfully deleted {Storage.CurrentWorkout.SessionType} workout configuration and history!", Severity.Success);
     }
 
@@ -207,7 +210,7 @@ namespace Fitness.Pages
       if (previousExercise == null)
         return style;
 
-      if (exercise.MinReps != previousExercise.MinReps)
+      if (exercise.MinReps != previousExercise.MinReps || exercise.Weight != previousExercise.Weight)
         style += "color:#FFD700;background-color:#000000;";
 
       return style;
@@ -247,6 +250,23 @@ namespace Fitness.Pages
       DialogOptions options = new DialogOptions { MaxWidth = MaxWidth.Large };
       IDialogReference showTextDialog = await DialogService.ShowAsync<ShowTextDialog>("Show Text", parameters, options);
       await showTextDialog.Result;
+      IsExpandSessionOptions = false;
+    }
+
+    private void ExpandSessionOptions() => IsExpandSessionOptions = !IsExpandSessionOptions;
+
+    private async Task AddOneRepToAllInCurrentWorkout()
+    {
+      if (!await PromptConfirmation($"Would you like to +1 the Minimum and Maximum Reps of ALL Exercises in the Current Workout?"))
+        return;
+
+      foreach (Exercise exercise in Storage.CurrentWorkout.Exercises)
+      {
+        exercise.MinReps++;
+        exercise.MaxReps++;
+      }
+      IsExpandSessionOptions = false;
+      Snackbar.Add($"Successfully +1 ALL Exercise in the Current Workout! Keep at it!", Severity.Success);
     }
   }
 }

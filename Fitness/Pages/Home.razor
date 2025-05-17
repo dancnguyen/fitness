@@ -9,12 +9,19 @@
   </MudContainer>
   @if (!string.IsNullOrWhiteSpace(Storage.CurrentWorkout.SessionType))
   {
-    <MudStack Row Class="mb-8">
+    <MudStack Row Class="mb-2">
       <MudText Typo="Typo.h5">Session Type: @Storage.CurrentWorkout.SessionType</MudText>
       <MudSpacer />
-      <MudButton Variant="Variant.Filled" DropShadow="false" Color="Color.Primary" Size="Size.Large" OnClick="ShowCurrentWorkoutAsText"><MudIcon Icon="@Icons.Material.Filled.TextSnippet" /></MudButton>
-      <MudButton Variant="Variant.Filled" DropShadow="false" Color="Color.Primary" Size="Size.Large" OnClick="DeleteSessionTypeData"><MudIcon Icon="@Icons.Material.Filled.Delete" /></MudButton>
+      <MudButton Variant="Variant.Filled" DropShadow="false" Color="Color.Primary" Size="Size.Large" OnClick="ExpandSessionOptions"><MudIcon Icon="@Icons.Material.Filled.MoreVert" /></MudButton>
     </MudStack>
+    <MudCollapse Expanded="IsExpandSessionOptions" Class="mb-6">
+      <MudStack Row>
+        <MudButton Variant="Variant.Filled" DropShadow="false" Color="Color.Primary" Size="Size.Large" OnClick="DeleteSessionTypeData"><MudIcon Icon="@Icons.Material.Filled.Delete" /></MudButton>
+        <MudSpacer />
+        <MudButton Variant="Variant.Filled" DropShadow="false" Color="Color.Primary" Size="Size.Large" OnClick="AddOneRepToAllInCurrentWorkout"><b>+1 Rep</b></MudButton>
+        <MudButton Variant="Variant.Filled" DropShadow="false" Color="Color.Primary" Size="Size.Large" OnClick="ShowCurrentWorkoutAsText"><MudIcon Icon="@Icons.Material.Filled.TextSnippet" /></MudButton>
+      </MudStack>
+    </MudCollapse>
     <MudGrid Spacing="12">
       <MudItem xs="12">
         <MudDataGrid Items="@Storage.CurrentWorkout.Exercises" SortMode="@SortMode.None" Class="exercise-datagrid">
