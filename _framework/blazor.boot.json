@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "Fitness",
   "resources": {
-    "hash": "sha256-UKx830ZfQgDWH/ywmh/pGeBp0ySvIei83CIAhrwSlbk=",
+    "hash": "sha256-pWI+1FqL8R6cACxRcKcuhmNFFV38qV8AVCOl/oC6QaM=",
     "fingerprinting": {
       "Blazored.LocalStorage.12n6dz54qr.wasm": "Blazored.LocalStorage.wasm",
       "Microsoft.AspNetCore.Components.5fcbnpsbmx.wasm": "Microsoft.AspNetCore.Components.wasm",
@@ -49,7 +49,7 @@
       "System.Threading.zcb42vnja5.wasm": "System.Threading.wasm",
       "System.cunp5qiwjj.wasm": "System.wasm",
       "System.Private.CoreLib.jv3coz0pkv.wasm": "System.Private.CoreLib.wasm",
-      "Fitness.w2mxcjth02.wasm": "Fitness.wasm",
+      "Fitness.fpm3zuz3qt.wasm": "Fitness.wasm",
       "dotnet.js": "dotnet.js",
       "dotnet.native.rtblh4npr3.js": "dotnet.native.js",
       "dotnet.native.aqhezbunpl.wasm": "dotnet.native.wasm",
@@ -121,7 +121,7 @@
       "System.Text.RegularExpressions.6ho7xcs3v0.wasm": "sha256-VpddQFi2ABOGLBREK6YD685+YGM7DRuUC+WJYsiOgjg=",
       "System.Threading.zcb42vnja5.wasm": "sha256-fZ9o2IQTIELEttSIeZ1yev0uL+0qIYnwOC1p/5RM/0k=",
       "System.cunp5qiwjj.wasm": "sha256-DM5iEENhrifGKn33Y7cqRzxC0OtHXYOKO13icwIazj8=",
-      "Fitness.w2mxcjth02.wasm": "sha256-CLZk2LjnnaE4sRzyQ7cC1yugWj4NRaaP8R08PeFaCmU="
+      "Fitness.fpm3zuz3qt.wasm": "sha256-TT8lUWrbOx7iAyRJ2zC0hXCk2Xl9rtFzSwDVhqXOIOA="
     }
   },
   "cacheBootResources": true,
