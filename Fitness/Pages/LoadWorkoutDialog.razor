@@ -2,12 +2,20 @@
   <TitleContent>Load Workout</TitleContent>
   <DialogContent>
     <MudGrid Spacing="12">
-      @foreach (SessionTypes value in Enum.GetValues(typeof(SessionTypes)))
+      @foreach (string value in PreviousSessionTypes)
       {
         <MudItem xs="12" Class="d-flex justify-center">
-          <MudButton Variant="Variant.Filled" Size="Size.Large" Color="Color.Primary" OnClick="(() => OnSessionClick(value.ToString()))">@value.ToString()</MudButton>
+          <MudButton Variant="Variant.Filled" Size="Size.Large" Color="Color.Primary" OnClick="(() => OnSessionClick(value))">@value</MudButton>
         </MudItem>
       }
+      <MudItem xs="12">
+        <MudContainer Class="d-flex justify-center">
+          <MudTextField T="string" Label="New Session Type" @bind-Value="SessionNewType" />
+        </MudContainer>
+        <MudContainer Class="mt-5 d-flex justify-center">
+          <MudButton Variant="Variant.Filled" DropShadow="false" Color="Color.Primary" Size="Size.Large" OnClick="CreateSessionType">CREATE</MudButton>
+        </MudContainer>
+      </MudItem>
     </MudGrid>
   </DialogContent>
   <DialogActions>

@@ -1,7 +1,13 @@
 ﻿<MudDialog>
   <TitleContent>App Management</TitleContent>
   <DialogContent>
-    <MudText Typo="Typo.body1">@InfoText</MudText>
+    <MudContainer MaxWidth="MaxWidth.Medium">
+      <MudText Typo="Typo.body1">@InfoText</MudText>
+      <MudLink Target="_blank" Href="https://github.com/dancnguyen/fitness">https://github.com/dancnguyen/fitness</MudLink>
+      <MudContainer Class="mt-4 d-flex justify-center">
+        <MudButton Variant="Variant.Filled" DropShadow="false" Color="Color.Primary" Size="Size.Large" OnClick="DownloadData">Download Data</MudButton>
+      </MudContainer>
+    </MudContainer>
   </DialogContent>
   <DialogActions>
     <MudButton OnClick="Close">Close</MudButton>

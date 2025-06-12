@@ -1,4 +1,5 @@
-﻿using Fitness.Pages;
+﻿using Fitness.Models;
+using Fitness.Pages;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
@@ -12,6 +13,9 @@ namespace Fitness.Layout
     [Inject]
     private ISnackbar Snackbar { get; set; } = default!;
 
+    [Inject]
+    private Blazored.LocalStorage.ILocalStorageService LocalStorage { get; set; } = default!;
+
     private MudTheme Theme = new()
     {
       PaletteLight = new()
@@ -22,8 +26,11 @@ namespace Fitness.Layout
 
     private async Task ShowAppManagement()
     {
+      Storage? storage = await LocalStorage.GetItemAsync<Storage>("storage");
+      Storage workingStorage = storage ?? new Storage();
+      DialogParameters<AppManagementDialog> parameters = new DialogParameters<AppManagementDialog> { { x => x.Storage, workingStorage } };
       DialogOptions options = new DialogOptions { MaxWidth = MaxWidth.ExtraSmall };
-      IDialogReference appManagementDialog = await DialogService.ShowAsync<AppManagementDialog>("Confirm", options);
+      IDialogReference appManagementDialog = await DialogService.ShowAsync<AppManagementDialog>("Confirm", parameters, options);
       DialogResult? appManagementDialogResult = await appManagementDialog.Result;
       if (appManagementDialogResult == null || appManagementDialogResult.Canceled)
         return;

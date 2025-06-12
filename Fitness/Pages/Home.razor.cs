@@ -37,6 +37,8 @@ namespace Fitness.Pages
         Storage.WorkoutHistory.Remove(sessionInHistory);
       Storage.WorkoutHistory.Add(Storage.CurrentWorkout);
       await LocalStorage.SetItemAsync("storage", Storage);
+      Storage? storage = await LocalStorage.GetItemAsync<Storage>("storage");
+      Storage = storage ?? new Storage();
       Notification = $"Progress Saved! {DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss")}";
       Snackbar.Add(Notification, Severity.Success);
     }
