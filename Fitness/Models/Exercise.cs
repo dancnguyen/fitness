@@ -21,7 +21,6 @@ namespace Fitness.Models
 
     [Required]
     [Range(1, 100, ErrorMessage = "Maximum Reps must be between 1 and 100")]
-    [CustomValidation(typeof(Exercise), nameof(ValidateMaxReps))]
     public int? MaxReps { get; set; }
 
     [Range(1, 10, ErrorMessage = "Sets must be between 1 and 10")]
@@ -39,19 +38,6 @@ namespace Fitness.Models
       if (MinReps == MaxReps)
         return MinReps.ToString() ?? string.Empty;
       return $"{MinReps}-{MaxReps}";
-    }
-
-    public static ValidationResult ValidateMaxReps(int maxReps, ValidationContext context)
-    {
-      Exercise exercise = (Exercise)context.ObjectInstance;
-      if (maxReps < exercise.MinReps)
-      {
-        return new ValidationResult(
-            "Maximum Reps cannot be less than Minimum Reps",
-            new[] { nameof(MaxReps) }
-        );
-      }
-      return ValidationResult.Success!;
     }
   }
 }

@@ -25,15 +25,33 @@ namespace Fitness.Pages
 
     private Exercise Exercise { get; set; } = new();
 
+    private bool ResetValidationPending { get; set; }
+
+    private MudTextField<int?> MaxRepsField { get; set; } = default!;
+
+    private bool CheckMaxReps { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
       await base.OnInitializedAsync();
       PreviousWorkout.SessionType = SessionType;
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+      await base.OnAfterRenderAsync(firstRender);
+      if (ResetValidationPending)
+      {
+        ResetValidationPending = false;
+        await Form.ResetValidationAsync();
+      }
+    }
+
     private async Task AddExercise()
     {
-      await Form.Validate();
+      CheckMaxReps = true;
+      await Form.ValidateAsync();
+      CheckMaxReps = false;
       if (!Form.IsValid)
         return;
       ErrorMessage = string.Empty;
@@ -46,7 +64,23 @@ namespace Fitness.Pages
       }
       ExerciseList.Add(Exercise);
       Exercise = new();
+      ResetValidationPending = true;
       Snackbar.Add("Successfully added exercise!", Severity.Success);
+    }
+
+    private const string MaxRepsErrorText = "Maximum Reps cannot be less than Minimum Reps";
+
+    private string? ValidateMaxReps(int? maxReps)
+    {
+      if (CheckMaxReps && maxReps < Exercise.MinReps)
+        return MaxRepsErrorText;
+      return null;
+    }
+
+    private async Task ClearMaxRepsError()
+    {
+      if (MaxRepsField.ValidationErrors.Contains(MaxRepsErrorText))
+        await MaxRepsField.ResetValidationAsync();
     }
 
     private void DeleteExercise(Exercise exercise)

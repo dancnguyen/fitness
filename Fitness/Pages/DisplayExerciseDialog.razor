@@ -5,7 +5,7 @@
     <MudForm @ref="Form">
       <MudGrid Spacing="12">
         <MudItem xs="12">
-          <MudTextField T="string" Label="Exercise Name" @bind-Value="Exercise.Name" For="(() => Exercise.Name)" onkeyup="OnNameKeyUp" />
+          <MudTextField T="string" Label="Exercise Name" Class="uppercase-input" Value="Exercise.Name" ValueChanged="@((string value) => Exercise.Name = value?.ToUpper() ?? string.Empty)" For="(() => Exercise.Name)" onkeyup="OnNameKeyUp" />
         </MudItem>
         <MudItem xs="12">
           <MudTextField T="int?" Mask="@(new PatternMask("000"))" Label="Weight" @bind-Value="Exercise.Weight" For="(() => Exercise.Weight)" />
@@ -19,10 +19,10 @@
           </MudSelect>
         </MudItem>
         <MudItem xs="12">
-          <MudTextField T="int?" Mask="@(new PatternMask("00"))" Label="Min Reps" @bind-Value="Exercise.MinReps" For="(() => Exercise.MinReps)" />
+          <MudTextField T="int?" Mask="@(new PatternMask("00"))" Label="Min Reps" @bind-Value="Exercise.MinReps" @bind-Value:after="ClearMaxRepsError" For="(() => Exercise.MinReps)" />
         </MudItem>
         <MudItem xs="12">
-          <MudTextField T="int?" Mask="@(new PatternMask("00"))" Label="Max Reps" @bind-Value="Exercise.MaxReps" For="(() => Exercise.MaxReps)" />
+          <MudTextField @ref="MaxRepsField" T="int?" Mask="@(new PatternMask("00"))" Label="Max Reps" @bind-Value="Exercise.MaxReps" For="(() => Exercise.MaxReps)" Validation="@(new Func<int?, string?>(ValidateMaxReps))" />
         </MudItem>
         <MudItem xs="12">
           <MudTextField T="int" Mask="@(new PatternMask("0"))" Label="Sets" @bind-Value="Exercise.Sets" For="(() => Exercise.Sets)" />

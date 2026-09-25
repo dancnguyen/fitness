@@ -44,6 +44,12 @@ namespace Fitness.Pages
 
     private MudForm Form { get; set; } = default!;
 
+    private MudTextField<int?> MaxRepsField { get; set; } = default!;
+
+    private bool CheckMaxReps { get; set; }
+
+    private const string MaxRepsErrorText = "Maximum Reps cannot be less than Minimum Reps";
+
     protected override void OnInitialized()
     {
       Exercise = new()
@@ -67,6 +73,19 @@ namespace Fitness.Pages
     }
 
     private void OnNameKeyUp(KeyboardEventArgs e) => IsExerciseModified = true;
+
+    private string? ValidateMaxReps(int? maxReps)
+    {
+      if (CheckMaxReps && maxReps < Exercise.MinReps)
+        return MaxRepsErrorText;
+      return null;
+    }
+
+    private async Task ClearMaxRepsError()
+    {
+      if (MaxRepsField.ValidationErrors.Contains(MaxRepsErrorText))
+        await MaxRepsField.ResetValidationAsync();
+    }
 
     private bool CheckExerciseIsModified()
     {
@@ -109,7 +128,9 @@ namespace Fitness.Pages
 
     private async Task Submit()
     {
-      await Form.Validate();
+      CheckMaxReps = true;
+      await Form.ValidateAsync();
+      CheckMaxReps = false;
       if (!Form.IsValid)
         return;
 

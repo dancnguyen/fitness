@@ -1,5 +1,6 @@
 ﻿using Fitness.Models;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using MudBlazor;
 
 namespace Fitness.Pages
@@ -45,6 +46,12 @@ namespace Fitness.Pages
       }
 
       MudDialog.Close(DialogResult.Ok(capitalizedSession));
+    }
+
+    private void OnSessionNewTypeKeyDown(KeyboardEventArgs e)
+    {
+      if (e.Key is "Enter" or "NumpadEnter")
+        CreateSessionType();
     }
 
     private void OnSessionClick(string sessionType) => MudDialog.Close(DialogResult.Ok(sessionType));

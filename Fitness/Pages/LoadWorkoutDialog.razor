@@ -1,4 +1,4 @@
-﻿<MudDialog>
+﻿<MudDialog DefaultFocus="DefaultFocus.None">
   <TitleContent>Load Workout</TitleContent>
   <DialogContent>
     <MudGrid Spacing="12">
@@ -10,7 +10,7 @@
       }
       <MudItem xs="12">
         <MudContainer Class="d-flex justify-center">
-          <MudTextField T="string" Label="New Session Type" @bind-Value="SessionNewType" />
+          <MudTextField T="string" Label="New Session Type" Class="uppercase-input" AutoFocus="true" Immediate="true" OnKeyDown="OnSessionNewTypeKeyDown" Value="SessionNewType" ValueChanged="@((string value) => SessionNewType = value?.ToUpper() ?? string.Empty)" />
         </MudContainer>
         <MudContainer Class="mt-5 d-flex justify-center">
           <MudButton Variant="Variant.Filled" DropShadow="false" Color="Color.Primary" Size="Size.Large" OnClick="CreateSessionType">CREATE</MudButton>

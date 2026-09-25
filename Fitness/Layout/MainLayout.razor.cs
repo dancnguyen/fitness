@@ -16,9 +16,9 @@ namespace Fitness.Layout
     [Inject]
     private Blazored.LocalStorage.ILocalStorageService LocalStorage { get; set; } = default!;
 
-    private MudTheme Theme = new()
+    private MudTheme Theme = new MudTheme()
     {
-      PaletteLight = new()
+      PaletteLight = new PaletteLight()
       {
         Primary = "#8B0000",
       }
