@@ -27,6 +27,8 @@ namespace Fitness.Pages
     private Exercise Exercise { get; set; } = default!;
     private Exercise UnmodifiedExercise { get; set; } = default!;
 
+    private bool IsNewExercise => string.IsNullOrWhiteSpace(InputExercise.Name);
+
     private string DialogTitle
     {
       get
@@ -39,8 +41,6 @@ namespace Fitness.Pages
     }
 
     private string ErrorMessage { get; set; } = string.Empty;
-
-    private bool IsExerciseModified { get; set; } = false;
 
     private MudForm Form { get; set; } = default!;
 
@@ -71,8 +71,6 @@ namespace Fitness.Pages
         Sets = Exercise.Sets,
       };
     }
-
-    private void OnNameKeyUp(KeyboardEventArgs e) => IsExerciseModified = true;
 
     private string? ValidateMaxReps(int? maxReps)
     {

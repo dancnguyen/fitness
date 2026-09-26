@@ -1,11 +1,11 @@
 ﻿@using Fitness.Models
-<MudDialog>
+<MudDialog DefaultFocus="@(IsNewExercise ? DefaultFocus.None : (DefaultFocus?)null)">
   <TitleContent>@DialogTitle</TitleContent>
   <DialogContent>
     <MudForm @ref="Form">
       <MudGrid Spacing="12">
         <MudItem xs="12">
-          <MudTextField T="string" Label="Exercise Name" Class="uppercase-input" Value="Exercise.Name" ValueChanged="@((string value) => Exercise.Name = value?.ToUpper() ?? string.Empty)" For="(() => Exercise.Name)" onkeyup="OnNameKeyUp" />
+          <MudTextField T="string" Label="Exercise Name" Class="uppercase-input" AutoFocus="IsNewExercise" Immediate="true" Value="Exercise.Name" ValueChanged="@((string value) => Exercise.Name = value?.ToUpper() ?? string.Empty)" For="(() => Exercise.Name)" />
         </MudItem>
         <MudItem xs="12">
           <MudTextField T="int?" Mask="@(new PatternMask("000"))" Label="Weight" @bind-Value="Exercise.Weight" For="(() => Exercise.Weight)" />
@@ -42,7 +42,7 @@
     {
       <MudButton Color="Color.Primary" OnClick="DeleteExercise">Delete Exercise</MudButton>
     }
-    @if (CheckExerciseIsModified() || IsExerciseModified)
+    @if (CheckExerciseIsModified())
     {
       <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit">Submit</MudButton>
     }

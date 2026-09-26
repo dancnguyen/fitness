@@ -21,8 +21,30 @@ namespace Fitness.Layout
       PaletteLight = new PaletteLight()
       {
         Primary = "#8B0000",
+      },
+      PaletteDark = new PaletteDark()
+      {
+        Primary = "#8B0000",
+        Background = "#121212",
+        Surface = "#1E1E1E",
       }
     };
+
+    private const string DarkModeKey = "darkMode";
+
+    private bool IsDarkMode { get; set; } = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+      bool? darkMode = await LocalStorage.GetItemAsync<bool?>(DarkModeKey);
+      IsDarkMode = darkMode ?? true;
+    }
+
+    private async Task ToggleDarkMode()
+    {
+      IsDarkMode = !IsDarkMode;
+      await LocalStorage.SetItemAsync(DarkModeKey, IsDarkMode);
+    }
 
     private async Task ShowAppManagement()
     {

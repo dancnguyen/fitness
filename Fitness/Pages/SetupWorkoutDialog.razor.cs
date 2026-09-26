@@ -27,6 +27,8 @@ namespace Fitness.Pages
 
     private bool ResetValidationPending { get; set; }
 
+    private MudTextField<string> NameField { get; set; } = default!;
+
     private MudTextField<int?> MaxRepsField { get; set; } = default!;
 
     private bool CheckMaxReps { get; set; }
@@ -44,6 +46,7 @@ namespace Fitness.Pages
       {
         ResetValidationPending = false;
         await Form.ResetValidationAsync();
+        await NameField.FocusAsync();
       }
     }
 

@@ -5,7 +5,7 @@
     <MudForm @ref="Form">
       <MudGrid Spacing="12">
         <MudItem xs="12">
-          <MudTextField T="string" Label="Exercise Name" Class="uppercase-input" AutoFocus="true" Value="Exercise.Name" ValueChanged="@((string value) => Exercise.Name = value?.ToUpper() ?? string.Empty)" For="(() => Exercise.Name)" />
+          <MudTextField @ref="NameField" T="string" Label="Exercise Name" Class="uppercase-input" AutoFocus="true" Value="Exercise.Name" ValueChanged="@((string value) => Exercise.Name = value?.ToUpper() ?? string.Empty)" For="(() => Exercise.Name)" />
         </MudItem>
         <MudItem xs="12">
           <MudTextField T="int?" Mask="@(new PatternMask("000"))" Label="Weight" @bind-Value="Exercise.Weight" For="(() => Exercise.Weight)" />
@@ -41,12 +41,12 @@
         @if (ExerciseList.Count > 0)
         {
           <MudItem xs="12">
-            <MudDataGrid Items="@ExerciseList" SortMode="@SortMode.None">
+            <MudDataGrid Items="@ExerciseList" SortMode="@SortMode.None" Breakpoint="Breakpoint.Always">
               <ToolBarContent>
                 <MudText Typo="Typo.h6">Setup Workout</MudText>
               </ToolBarContent>
               <Columns>
-                <PropertyColumn Property="x => x.Name" Title="Exercise" />
+                <PropertyColumn Property="x => x.Name" Title="Exercise" CellClass="exercise-name-cell" />
                 <PropertyColumn Property="x => x.FormatWeight()" Title="Weight" />
                 <PropertyColumn Property="x => x.FormatReps()" Title="Reps" />
                 <PropertyColumn Property="x => x.Sets" Title="Sets" />

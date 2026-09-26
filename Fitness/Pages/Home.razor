@@ -24,14 +24,14 @@
     </MudCollapse>
     <MudGrid Spacing="12">
       <MudItem xs="12">
-        <MudDataGrid Items="@Storage.CurrentWorkout.Exercises" SortMode="@SortMode.None" Class="exercise-datagrid">
+        <MudDataGrid Items="@Storage.CurrentWorkout.Exercises" SortMode="@SortMode.None" Breakpoint="Breakpoint.Always" Class="exercise-datagrid">
           <ToolBarContent>
-            <MudText Typo="Typo.h6">Current Workout</MudText>
+            <MudText Typo="Typo.h6" Style="font-size: 1.375rem;">Current Workout</MudText>
             <MudSpacer />
             <MudButton Variant="Variant.Filled" DropShadow="false" Color="Color.Primary" Size="Size.Large" OnClick="AddExercise"><MudIcon Icon="@Icons.Material.Filled.Add" /></MudButton>
           </ToolBarContent>
           <Columns>
-            <PropertyColumn Property="x => x.Name" Title="Exercise" />
+            <PropertyColumn Property="x => x.Name" Title="Exercise" CellClass="exercise-name-cell" />
             <PropertyColumn Property="x => x.FormatWeight()" Title="Weight" CellStyleFunc="@ChangedWeightCellStyleFunc" />
             <PropertyColumn Property="x => x.FormatReps()" Title="Reps" CellStyleFunc="@ChangedRepsCellStyleFunc" />
             <PropertyColumn Property="x => x.Sets" Title="Sets" />
