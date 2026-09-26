@@ -1,0 +1,23 @@
+<MudDialog>
+  <TitleContent>Rest Timer</TitleContent>
+  <DialogContent>
+    <div class="d-flex align-center justify-center gap-4">
+      <MudIconButton Icon="@Icons.Material.Filled.Remove" Variant="Variant.Outlined" Size="Size.Large" OnClick="() => Adjust(-StepSeconds)"
+                     Disabled="@(Seconds <= MinSeconds)" aria-label="Subtract 15 seconds" />
+      <MudText Typo="Typo.h3" Class="rest-timer-dialog-time">@RestTimer.FormatTime(TimeSpan.FromSeconds(Seconds))</MudText>
+      <MudIconButton Icon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Size="Size.Large" OnClick="() => Adjust(StepSeconds)"
+                     Disabled="@(Seconds >= MaxSeconds)" aria-label="Add 15 seconds" />
+    </div>
+    <div class="d-flex flex-wrap justify-center gap-2 mt-6">
+      @foreach (int preset in Presets)
+      {
+        <MudButton Variant="@(preset == Seconds ? Variant.Filled : Variant.Outlined)" DropShadow="false" Color="Color.Primary" Size="Size.Large"
+                   Style="@(preset == Seconds ? null : InactivePresetStyle)" OnClick="() => Seconds = preset">@RestTimer.FormatTime(TimeSpan.FromSeconds(preset))</MudButton>
+      }
+    </div>
+  </DialogContent>
+  <DialogActions>
+    <MudButton OnClick="Cancel">Cancel</MudButton>
+    <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit">Save</MudButton>
+  </DialogActions>
+</MudDialog>

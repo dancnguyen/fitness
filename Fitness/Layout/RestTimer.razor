@@ -1,0 +1,4 @@
+<MudButton Variant="Variant.Text" Color="Color.Inherit" StartIcon="@MainIcon" OnClick="OnMainClick" Class="@($"rest-timer-button{(State == TimerState.Alarming ? " rest-timer-alarming" : string.Empty)}")" aria-label="@MainLabel">
+  <span class="rest-timer-time">@DisplayTime</span>
+</MudButton>
+<MudIconButton Icon="@(State == TimerState.Idle ? Icons.Material.Filled.Tune : Icons.Material.Filled.Stop)" Color="Color.Inherit" OnClick="OnSecondaryClick" aria-label="@(State == TimerState.Idle ? "Rest timer settings" : "Reset rest timer")" />

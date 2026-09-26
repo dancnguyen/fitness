@@ -24,10 +24,15 @@ namespace Fitness.Pages
 
     private Storage Storage { get; set; } = new Storage();
 
+    private bool IsStorageLoaded { get; set; } = false;
+
+    private bool IsWorkoutLoaded => !string.IsNullOrWhiteSpace(Storage.CurrentWorkout.SessionType);
+
     protected override async Task OnInitializedAsync()
     {
       Storage? storage = await LocalStorage.GetItemAsync<Storage>("storage");
       Storage = storage ?? new Storage();
+      IsStorageLoaded = true;
     }
 
     private async Task SaveProgress()
