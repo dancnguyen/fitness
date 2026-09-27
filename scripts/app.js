@@ -8,6 +8,11 @@
   document.body.removeChild(link);
 };
 
+document.addEventListener('mousedown', (event) => {
+  if (event.target instanceof Element && event.target.closest('.mud-overlay-dialog'))
+    event.preventDefault();
+}, true);
+
 window.restTimer = (() => {
   let audioContext = null;
   let alarmInterval = null;
@@ -56,16 +61,20 @@ window.restTimer = (() => {
   };
 
   const playBeepPattern = () => {
+    if (navigator.vibrate)
+      navigator.vibrate([200, 50, 200, 50, 200]);
     const context = getAudioContext();
     if (!context)
       return;
-    if (context.state !== 'running')
-      context.resume();
-    const now = context.currentTime;
-    for (let i = 0; i < 3; i++)
-      beep(context, now + i * 0.25);
-    if (navigator.vibrate)
-      navigator.vibrate([200, 50, 200, 50, 200]);
+    const play = () => {
+      const now = context.currentTime;
+      for (let i = 0; i < 3; i++)
+        beep(context, now + i * 0.25);
+    };
+    if (context.state === 'running')
+      play();
+    else
+      context.resume().then(play).catch(() => { });
   };
 
   const requestWakeLock = async () => {
@@ -99,6 +108,7 @@ window.restTimer = (() => {
       alarmTimeout = setTimeout(stopAlarm, maxSeconds * 1000);
     },
     stopAlarm,
+    primeAudio: unlockAudio,
     setKeepAwake: (enabled) => {
       keepAwake = enabled;
       if (enabled) {
