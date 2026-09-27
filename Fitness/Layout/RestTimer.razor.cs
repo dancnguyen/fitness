@@ -89,8 +89,19 @@ namespace Fitness.Layout
         await Reset();
     }
 
+    public async Task StartIfNotRunning()
+    {
+      if (State == TimerState.Running)
+        return;
+      if (State == TimerState.Alarming)
+        await JSRuntime.InvokeVoidAsync("restTimer.stopAlarm");
+      await Start(TimeSpan.FromSeconds(DurationSeconds));
+      StateHasChanged();
+    }
+
     private async Task Start(TimeSpan duration)
     {
+      await JSRuntime.InvokeVoidAsync("restTimer.primeAudio");
       EndTimeUtc = DateTime.UtcNow + duration;
       Remaining = duration;
       State = TimerState.Running;

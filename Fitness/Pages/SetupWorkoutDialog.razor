@@ -29,7 +29,7 @@
         </MudItem>
         <MudItem xs="12">
           <MudContainer Class="d-flex justify-center">
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="AddExercise">Add Exercise</MudButton>
+            <MudButton Variant="Variant.Filled" DropShadow="false" Color="Color.Primary" Size="Size.Large" OnClick="AddExercise" aria-label="Add Exercise"><MudIcon Icon="@Icons.Material.Filled.Add" /></MudButton>
           </MudContainer>
         </MudItem>
         @if (!string.IsNullOrWhiteSpace(ErrorMessage))
@@ -65,8 +65,8 @@
     </MudForm>
   </DialogContent>
   <DialogActions>
-    <MudButton OnClick="Cancel">Cancel</MudButton>
-    <MudButton Color="Color.Primary" OnClick="AddExercise">Add Exercise</MudButton>
-    <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit">Submit</MudButton>
+    <span @onmousedown:preventDefault="true"><MudButton OnClick="Cancel">Cancel</MudButton></span>
+    <MudButton Variant="Variant.Filled" DropShadow="false" Color="Color.Primary" OnClick="AddExercise" aria-label="Add Exercise"><MudIcon Icon="@Icons.Material.Filled.Add" /></MudButton>
+    <span @onmousedown:preventDefault="true"><MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit">Submit</MudButton></span>
   </DialogActions>
 </MudDialog>

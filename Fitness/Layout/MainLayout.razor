@@ -1,6 +1,7 @@
 ﻿@inherits LayoutComponentBase
 
 <MudThemeProvider Theme="@Theme" IsDarkMode="@IsDarkMode" />
+<style>:root { --input-label-focused-color: @(IsDarkMode ? "#FFFFFF" : "var(--mud-palette-text-primary)"); }</style>
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
@@ -8,12 +9,14 @@
   <MudAppBar Color="Color.Primary" Elevation="1">
     <MudText Typo="Typo.h5" Class="ml-3">Fitness</MudText>
     <MudSpacer />
-    <RestTimer IsDarkMode="@IsDarkMode" />
+    <RestTimer @ref="RestTimerComponent" IsDarkMode="@IsDarkMode" />
     <MudIconButton Icon="@(IsDarkMode ? Icons.Material.Filled.LightMode : Icons.Material.Filled.DarkMode)" Color="Color.Inherit" OnClick="ToggleDarkMode" />
     <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" OnClick="ShowAppManagement" />
   </MudAppBar>
   <MudMainContent>
-    @Body
+    <CascadingValue Value="this" IsFixed="true">
+      @Body
+    </CascadingValue>
   </MudMainContent>
 </MudLayout>
 

@@ -37,10 +37,10 @@
     </MudForm>
   </DialogContent>
   <DialogActions>
-    <MudButton OnClick="Cancel">Cancel</MudButton>
+    <span @onmousedown:preventDefault="true"><MudButton OnClick="Cancel">Cancel</MudButton></span>
     @if (!string.IsNullOrWhiteSpace(UnmodifiedExercise.Name))
     {
-      <MudButton Color="Color.Primary" OnClick="DeleteExercise">Delete Exercise</MudButton>
+      <MudButton Variant="Variant.Filled" DropShadow="false" Color="Color.Primary" OnClick="DeleteExercise" aria-label="Delete Exercise"><MudIcon Icon="@Icons.Material.Filled.Delete" /></MudButton>
     }
     @if (CheckExerciseIsModified())
     {

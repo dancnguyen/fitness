@@ -34,11 +34,15 @@ namespace Fitness.Layout
 
     private bool IsDarkMode { get; set; } = true;
 
+    private RestTimer? RestTimerComponent { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
       bool? darkMode = await LocalStorage.GetItemAsync<bool?>(DarkModeKey);
       IsDarkMode = darkMode ?? true;
     }
+
+    public Task StartRestTimer() => RestTimerComponent?.StartIfNotRunning() ?? Task.CompletedTask;
 
     private async Task ToggleDarkMode()
     {

@@ -1,4 +1,5 @@
-﻿using Fitness.Models;
+﻿using Fitness.Layout;
+using Fitness.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Options;
 using Microsoft.JSInterop;
@@ -18,6 +19,9 @@ namespace Fitness.Pages
 
     [Inject]
     private ISnackbar Snackbar { get; set; } = default!;
+
+    [CascadingParameter]
+    private MainLayout Layout { get; set; } = default!;
 
     private string Notification { get; set; } = string.Empty;
     private bool IsExpandSessionOptions { get; set; } = false;
@@ -142,7 +146,7 @@ namespace Fitness.Pages
       };
     }
 
-    private void IncrementCompletedSet(Exercise exercise)
+    private async Task IncrementCompletedSet(Exercise exercise)
     {
       if (exercise.CompletedSets >= exercise.Sets)
       {
@@ -151,6 +155,8 @@ namespace Fitness.Pages
       }
       exercise.CompletedSets++;
       Snackbar.Add($"Successfully incremented completed sets for {exercise.Name}! Good Job!", Severity.Success);
+      if (exercise.CompletedSets < exercise.Sets) 
+        await Layout.StartRestTimer();
     }
 
     private async Task EditExercise(Exercise exercise) 

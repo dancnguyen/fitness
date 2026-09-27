@@ -145,6 +145,10 @@ code {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+.mud-dialog .mud-input:focus-within ~ label.mud-input-label.mud-input-label-inputcontrol:not(.mud-input-error) {
+  color: var(--input-label-focused-color);
+}
+
 .uppercase-input input {
   text-transform: uppercase;
 }
