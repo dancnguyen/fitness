@@ -153,6 +153,10 @@ code {
   text-transform: uppercase;
 }
 
+.mud-input-control.mud-input-control-boolean-input.aligned-checkbox {
+  margin-left: -15px;
+}
+
 .rest-timer-button {
   min-width: 0;
   padding-left: 8px;

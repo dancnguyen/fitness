@@ -19,11 +19,23 @@
           </MudSelect>
         </MudItem>
         <MudItem xs="12">
-          <MudTextField T="int?" Mask="@(new PatternMask("00"))" Label="Min Reps" @bind-Value="Exercise.MinReps" @bind-Value:after="ClearMaxRepsError" For="(() => Exercise.MinReps)" />
+          <MudCheckBox T="bool" Class="aligned-checkbox" Label="Use Rep Range" Value="UseRepRange" ValueChanged="SetUseRepRange" />
         </MudItem>
-        <MudItem xs="12">
-          <MudTextField @ref="MaxRepsField" T="int?" Mask="@(new PatternMask("00"))" Label="Max Reps" @bind-Value="Exercise.MaxReps" For="(() => Exercise.MaxReps)" Validation="@(new Func<int?, string?>(ValidateMaxReps))" />
-        </MudItem>
+        @if (UseRepRange)
+        {
+          <MudItem xs="12">
+            <MudTextField T="int?" Mask="@(new PatternMask("00"))" Label="Min Reps" @bind-Value="Exercise.MinReps" @bind-Value:after="ClearMaxRepsError" For="(() => Exercise.MinReps)" />
+          </MudItem>
+          <MudItem xs="12">
+            <MudTextField @ref="MaxRepsField" T="int?" Mask="@(new PatternMask("00"))" Label="Max Reps" @bind-Value="Exercise.MaxReps" For="(() => Exercise.MaxReps)" Validation="@(new Func<int?, string?>(ValidateMaxReps))" />
+          </MudItem>
+        }
+        else
+        {
+          <MudItem xs="12">
+            <MudTextField T="int?" Mask="@(new PatternMask("00"))" Label="Reps" Value="Reps" ValueChanged="SetReps" Validation="@(new Func<int?, string?>(ValidateReps))" />
+          </MudItem>
+        }
         <MudItem xs="12">
           <MudTextField T="int" Mask="@(new PatternMask("0"))" Label="Sets" @bind-Value="Exercise.Sets" For="(() => Exercise.Sets)" />
         </MudItem>
@@ -67,6 +79,6 @@
   <DialogActions>
     <span @onmousedown:preventDefault="true"><MudButton OnClick="Cancel">Cancel</MudButton></span>
     <MudButton Variant="Variant.Filled" DropShadow="false" Color="Color.Primary" OnClick="AddExercise" aria-label="Add Exercise"><MudIcon Icon="@Icons.Material.Filled.Add" /></MudButton>
-    <span @onmousedown:preventDefault="true"><MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit">Submit</MudButton></span>
+    <span @onmousedown:preventDefault="true"><MudButton Variant="Variant.Filled" DropShadow="false" Color="Color.Primary" OnClick="Submit" aria-label="Submit"><MudIcon Icon="@Icons.Material.Filled.Check" /></MudButton></span>
   </DialogActions>
 </MudDialog>

@@ -33,6 +33,10 @@ namespace Fitness.Pages
 
     private bool CheckMaxReps { get; set; }
 
+    private bool UseRepRange { get; set; }
+
+    private int? Reps { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
       await base.OnInitializedAsync();
@@ -67,6 +71,8 @@ namespace Fitness.Pages
       }
       ExerciseList.Add(Exercise);
       Exercise = new();
+      Reps = null;
+      UseRepRange = false;
       ResetValidationPending = true;
       Snackbar.Add("Successfully added exercise!", Severity.Success);
     }
@@ -84,6 +90,29 @@ namespace Fitness.Pages
     {
       if (MaxRepsField.ValidationErrors.Contains(MaxRepsErrorText))
         await MaxRepsField.ResetValidationAsync();
+    }
+
+    private void SetUseRepRange(bool useRepRange)
+    {
+      UseRepRange = useRepRange;
+      if (!useRepRange)
+        SetReps(Exercise.MaxReps ?? Exercise.MinReps);
+    }
+
+    private void SetReps(int? reps)
+    {
+      Reps = reps;
+      Exercise.MinReps = reps;
+      Exercise.MaxReps = reps;
+    }
+
+    private string? ValidateReps(int? reps)
+    {
+      if (reps == null)
+        return "Reps is required";
+      if (reps < 1 || reps > 99)
+        return "Reps must be between 1 and 99";
+      return null;
     }
 
     private void DeleteExercise(Exercise exercise)
