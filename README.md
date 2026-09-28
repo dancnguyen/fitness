@@ -1,4 +1,5 @@
-A Simple Workout App
+# Fitness
+A simple app to track workouts.
 
 Accessible on GH Pages at:
 
