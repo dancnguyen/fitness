@@ -13,6 +13,28 @@ document.addEventListener('mousedown', (event) => {
     event.preventDefault();
 }, true);
 
+const clearUndoHistory = () => {
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.tabIndex = -1;
+  input.setAttribute('aria-hidden', 'true');
+  input.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0;pointer-events:none;';
+  document.body.appendChild(input);
+  input.value = ' ';
+  input.value = '';
+  input.remove();
+};
+
+document.addEventListener('focusout', (event) => {
+  if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement)
+    setTimeout(clearUndoHistory, 0);
+}, true);
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden')
+    clearUndoHistory();
+});
+
 window.restTimer = (() => {
   let audioContext = null;
   let alarmInterval = null;
