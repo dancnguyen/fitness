@@ -47,14 +47,23 @@
                   <MudButton Variant="Variant.Filled" Size="Size.Medium" Color="Color.Primary" OnClick="(() => IncrementCompletedSet(row.Item))"><MudIcon Icon="@Icons.Material.Filled.FitnessCenter" /></MudButton>
                 </CellTemplate>
               </TemplateColumn>
-              <TemplateColumn Context="row" Title="Reset To Prev">
+              <TemplateColumn Context="row" Title="Shortcuts">
                 <CellTemplate>
-                  <MudButton Variant="Variant.Filled" Size="Size.Medium" Color="Color.Primary" OnClick="(() => ResetToPreviousWorkout(row.Item))"><MudIcon Icon="@Icons.Material.Filled.ArrowBack" /></MudButton>
+                  <MudStack Row Spacing="2" Class="shortcut-buttons">
+                    <MudButton Variant="Variant.Filled" Size="Size.Medium" Color="Color.Primary" Disabled="@(Storage.CurrentWorkout.Exercises.IndexOf(row.Item) <= 0)" OnClick="(() => MoveExercise(row.Item, -1))" aria-label="Move Up"><MudIcon Icon="@Icons.Material.Filled.ArrowUpward" /></MudButton>
+                    <MudButton Variant="Variant.Filled" Size="Size.Medium" Color="Color.Primary" Disabled="@(Storage.CurrentWorkout.Exercises.IndexOf(row.Item) >= Storage.CurrentWorkout.Exercises.Count - 1)" OnClick="(() => MoveExercise(row.Item, 1))" aria-label="Move Down"><MudIcon Icon="@Icons.Material.Filled.ArrowDownward" /></MudButton>
+                    <MudButton Variant="Variant.Filled" Size="Size.Medium" Color="Color.Primary" OnClick="(() => ResetToPreviousWorkout(row.Item))" aria-label="Reset To Prev"><MudIcon Icon="@Icons.Material.Filled.ArrowBack" /></MudButton>
+                    <MudButton Variant="Variant.Filled" Size="Size.Medium" Color="Color.Primary" OnClick="(() => EditExercise(row.Item))" aria-label="Edit"><MudIcon Icon="@Icons.Material.Filled.Edit" /></MudButton>
+                  </MudStack>
                 </CellTemplate>
               </TemplateColumn>
-              <TemplateColumn Context="row" Title="Edit">
+              <TemplateColumn Context="row" Title="Increment">
                 <CellTemplate>
-                  <MudButton Variant="Variant.Filled" Size="Size.Medium" Color="Color.Primary" OnClick="(() => EditExercise(row.Item))"><MudIcon Icon="@Icons.Material.Filled.Edit" /></MudButton>
+                  <MudStack Row Spacing="2" Class="increment-buttons">
+                    <MudButton Variant="Variant.Filled" Size="Size.Medium" Color="Color.Primary" Disabled="@(row.Item.Weight + 10 > MaxWeight)" OnClick="(() => IncrementWeight(row.Item, 10))">+10 @FormatUnits(row.Item)</MudButton>
+                    <MudButton Variant="Variant.Filled" Size="Size.Medium" Color="Color.Primary" Disabled="@(row.Item.Weight + 5 > MaxWeight)" OnClick="(() => IncrementWeight(row.Item, 5))">+5 @FormatUnits(row.Item)</MudButton>
+                    <MudButton Variant="Variant.Filled" Size="Size.Medium" Color="Color.Primary" Disabled="@(row.Item.MaxReps + 1 > MaxReps)" OnClick="(() => IncrementReps(row.Item))">+1 rep</MudButton>
+                  </MudStack>
                 </CellTemplate>
               </TemplateColumn>
             </Columns>

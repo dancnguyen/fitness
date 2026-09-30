@@ -3,7 +3,7 @@
   <TitleContent>@DialogTitle</TitleContent>
   <DialogContent>
     <MudForm @ref="Form">
-      <MudGrid Spacing="12">
+      <MudGrid Spacing="6">
         <MudItem xs="12">
           <MudTextField T="string" Label="Exercise Name" Class="uppercase-input" AutoFocus="IsNewExercise" Immediate="true" Value="Exercise.Name" ValueChanged="@((string value) => Exercise.Name = value?.ToUpper() ?? string.Empty)" For="(() => Exercise.Name)" />
         </MudItem>

@@ -23,6 +23,9 @@ namespace Fitness.Pages
     [CascadingParameter]
     private MainLayout Layout { get; set; } = default!;
 
+    private const int MaxWeight = 1000;
+    private const int MaxReps = 100;
+
     private string Notification { get; set; } = string.Empty;
     private bool IsExpandSessionOptions { get; set; } = false;
 
@@ -120,6 +123,47 @@ namespace Fitness.Pages
       Storage.CurrentWorkout.Exercises.Remove(currentExercise);
       Storage.CurrentWorkout.Exercises.Insert(indexExercise, resetExercise);
       Snackbar.Add($"Successfully reset {exercise.Name} to previous workout settings!", Severity.Success);
+    }
+
+    private async Task MoveExercise(Exercise exercise, int offset)
+    {
+      string direction = offset < 0 ? "up" : "down";
+      if (!await PromptConfirmation($"Would you like to move {exercise.Name} {direction} in the workout?"))
+        return;
+
+      int indexExercise = Storage.CurrentWorkout.Exercises.IndexOf(exercise);
+      int newIndex = indexExercise + offset;
+      if (indexExercise < 0 || newIndex < 0 || newIndex >= Storage.CurrentWorkout.Exercises.Count)
+        return;
+      Storage.CurrentWorkout.Exercises.RemoveAt(indexExercise);
+      Storage.CurrentWorkout.Exercises.Insert(newIndex, exercise);
+      Snackbar.Add($"Successfully moved {exercise.Name} {direction}!", Severity.Success);
+    }
+
+    private static string FormatUnits(Exercise exercise) => exercise.Measurement.ToString().ToLower();
+
+    private async Task IncrementWeight(Exercise exercise, int amount)
+    {
+      string units = FormatUnits(exercise);
+      if (!await PromptConfirmation($"Would you like to add {amount} {units} to the Weight of {exercise.Name}?"))
+        return;
+
+      if (exercise.Weight + amount > MaxWeight)
+        return;
+      exercise.Weight += amount;
+      Snackbar.Add($"Successfully added {amount} {units} to {exercise.Name}!", Severity.Success);
+    }
+
+    private async Task IncrementReps(Exercise exercise)
+    {
+      if (!await PromptConfirmation($"Would you like to add 1 rep to the Min Reps and Max Reps of {exercise.Name}?"))
+        return;
+
+      if (exercise.MaxReps + 1 > MaxReps)
+        return;
+      exercise.MinReps++;
+      exercise.MaxReps++;
+      Snackbar.Add($"Successfully added 1 rep to {exercise.Name}!", Severity.Success);
     }
 
     private void LoadCurrentWorkoutFromPrevious(string sessionType)
