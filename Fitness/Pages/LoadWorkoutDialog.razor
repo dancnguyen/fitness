@@ -10,7 +10,7 @@
       }
       <MudItem xs="12">
         <MudContainer Class="d-flex justify-center">
-          <MudTextField T="string" Label="New Session Type" Class="uppercase-input" AutoFocus="true" Immediate="true" OnKeyDown="OnSessionNewTypeKeyDown" Value="SessionNewType" ValueChanged="@((string value) => SessionNewType = value?.ToUpper() ?? string.Empty)" />
+          <MudTextField T="string" Label="New Session Type" Class="uppercase-input" AutoFocus="true" Immediate="true" OnKeyDown="OnSessionNewTypeKeyDown" @bind-Value="SessionNewType" />
         </MudContainer>
         <MudContainer Class="mt-5 d-flex justify-center">
           <MudButton Variant="Variant.Filled" DropShadow="false" Color="Color.Primary" Size="Size.Large" OnClick="CreateSessionType">CREATE</MudButton>

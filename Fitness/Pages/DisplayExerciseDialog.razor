@@ -5,7 +5,7 @@
     <MudForm @ref="Form">
       <MudGrid Spacing="6">
         <MudItem xs="12">
-          <MudTextField T="string" Label="Exercise Name" Class="uppercase-input" AutoFocus="IsNewExercise" Immediate="true" Value="Exercise.Name" ValueChanged="@((string value) => Exercise.Name = value?.ToUpper() ?? string.Empty)" For="(() => Exercise.Name)" />
+          <MudTextField T="string" Label="Exercise Name" Class="uppercase-input" AutoFocus="IsNewExercise" Immediate="true" Value="Exercise.Name" ValueChanged="@((string value) => Exercise.Name = value ?? string.Empty)" For="(() => Exercise.Name)" />
         </MudItem>
         <MudItem xs="12">
           <MudTextField T="int?" Mask="@(new PatternMask("000"))" Label="Weight" @bind-Value="Exercise.Weight" For="(() => Exercise.Weight)" />

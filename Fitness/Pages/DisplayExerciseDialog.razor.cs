@@ -119,7 +119,7 @@ namespace Fitness.Pages
     {
       if (UnmodifiedExercise == null)
         return false;
-      else if (!UnmodifiedExercise.Name.Equals(Exercise.Name))
+      else if (!UnmodifiedExercise.Name.Equals(Exercise.Name, StringComparison.OrdinalIgnoreCase))
         return true;
       else if (UnmodifiedExercise.Weight != Exercise.Weight)
         return true;
@@ -162,6 +162,7 @@ namespace Fitness.Pages
       if (!Form.IsValid)
         return;
 
+      Exercise.Name = Exercise.Name.ToUpper();
       if (!UnmodifiedExercise.Name.Equals(Exercise.Name) && ExerciseNames.Where(x => x.Equals(Exercise.Name, StringComparison.OrdinalIgnoreCase)).FirstOrDefault() != null)
       {
         string error = "Another exercise with the same name cannot be added!";
