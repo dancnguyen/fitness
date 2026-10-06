@@ -8,6 +8,38 @@
   document.body.removeChild(link);
 };
 
+window.copyToClipboard = async (text) => {
+  const fallbackCopy = () => {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.setAttribute('readonly', '');
+    textArea.style.cssText = 'position:fixed;top:0;left:0;opacity:0;font-size:16px;';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    textArea.setSelectionRange(0, text.length);
+    let isCopied = false;
+    try {
+      isCopied = document.execCommand('copy');
+    } catch {
+      isCopied = false;
+    }
+    textArea.remove();
+    window.getSelection()?.removeAllRanges();
+    return isCopied;
+  };
+
+  if (navigator.clipboard && window.isSecureContext) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch {
+      return fallbackCopy();
+    }
+  }
+  return fallbackCopy();
+};
+
 document.addEventListener('mousedown', (event) => {
   if (event.target instanceof Element && event.target.closest('.mud-overlay-dialog'))
     event.preventDefault();

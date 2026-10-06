@@ -4,6 +4,9 @@
     <MudTextField T="string" Text="@ShowText" Variant="Variant.Text" Typo="Typo.body1" ReadOnly="true" Lines="12" />
   </DialogContent>
   <DialogActions>
+    <MudButton Color="Color.Primary" Variant="Variant.Filled" Class="copy-to-clipboard-button" OnClick="CopyToClipboard" aria-label="Copy to clipboard" title="Copy to clipboard">
+      <MudIcon Icon="@Icons.Material.Filled.ContentCopy" Size="Size.Small" />
+    </MudButton>
     <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Ok">OK</MudButton>
   </DialogActions>
 </MudDialog>

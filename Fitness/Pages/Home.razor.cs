@@ -290,7 +290,7 @@ namespace Fitness.Pages
     private async Task ShowCurrentWorkoutAsText()
     {
       StringBuilder builder = new StringBuilder();
-      foreach (Exercise exercise in Storage.CurrentWorkout.Exercises)
+      foreach (Exercise exercise in Storage.CurrentWorkout.Exercises.Where(x => x.CompletedSets > 0))
       {
         for (int i = 1; i <= exercise.CompletedSets; i++)
           builder.Append(i);

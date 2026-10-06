@@ -269,3 +269,7 @@ code {
   white-space: nowrap;
   text-transform: none;
 }
+
+.copy-to-clipboard-button .mud-button-label {
+  height: 1.75em;
+}

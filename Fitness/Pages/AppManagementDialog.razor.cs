@@ -17,14 +17,6 @@ namespace Fitness.Pages
     [Parameter]
     public Storage Storage { get; set; } = new Storage();
 
-    private string InfoText
-    {
-      get
-      {
-        return "Source Code:";
-      }
-    }
-
     private async Task DownloadData()
     {
       StringBuilder builder = new StringBuilder();
